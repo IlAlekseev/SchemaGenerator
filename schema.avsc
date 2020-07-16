@@ -1,0 +1,841 @@
+[
+  {
+    "name": "DocumentType",
+    "type": "enum",
+    "symbols": [
+      "RF_PASSPORT",
+      "SNILS",
+      "FID_DOC",
+      "RF_DRIVING_LICENSE",
+      "MLTR_ID",
+      "FRGN_PASS",
+      "MDCL_PLCY",
+      "FID_BRTH_CERT",
+      "OLD_BRTH_CERT",
+      "REGISTRATION",
+      "RF_BRTH_CERT",
+      "MARRIED_CERT",
+      "DIVORCE_CERT",
+      "NAME_CHANGE_CERT",
+      "FATHERHOOD_CERT",
+      "DEATH_CERT",
+      "VEHICLE_CERT",
+      "MLTR_CONTRACT_CERT",
+      "LGL_CPCT_CERT",
+      "PRISON_CERT",
+      "ILS_PFR_CERT",
+      "EGRN_CERT"
+    ]
+  },
+  {
+    "name": "Gender",
+    "type": "enum",
+    "symbols": [
+      "F",
+      "M",
+      "U"
+    ]
+  },
+  {
+    "name": "IndividualType",
+    "type": "enum",
+    "symbols": [
+      "клиент",
+      "представитель юл",
+      "проспект",
+      "гость"
+    ]
+  },
+  {
+    "name": "AddressType",
+    "type": "enum",
+    "symbols": [
+      "регистрациии",
+      "проживания"
+    ]
+  },
+  {
+    "name": "Status",
+    "type": "enum",
+    "symbols": ["trusted", "verified", "verifying", "unverified"]
+  },
+  {
+    "name": "MaritalStatus",
+    "type": "enum",
+    "symbols": ["женат", "замужем", "холост", "разведен"]
+  },
+  {
+    "name": "ContactType",
+    "type": "enum",
+    "symbols": ["домашний", "доверенный", "рабочий"]
+  },
+  {
+    "name": "Relevance",
+    "type": "enum",
+    "symbols": [ "actual", "expired", "invalid" ]
+  },
+  {
+    "name": "SNILSDoc",
+    "type": "record",
+    "logicalType": "ValueObject",
+    "fields": [
+      { "name": "status", "type": "Status" },
+      { "name": "relevance", "type": "Relevance" },
+      { "name": "message", "type": ["null", "string"] },
+      { "name": "departmentDoc", "type": ["null", "string"] },
+      { "name": "getDateDoc", "type": ["null", {"type": "string", "logicalType": "DateTime"}] },
+      { "name": "validateDateDoc", "type": ["null", {"type": "string", "logicalType": "DateTime"}] },
+      { "name": "snils", "type": "string"},
+      { "name": "name", "type": "string"},
+      { "name": "patronymic", "type": ["null", "string"] },
+      { "name": "surname", "type": "string"},
+      { "name": "gender", "type": "string"},
+      { "name": "birthdate", "type": {"type": "string", "logicalType": "DateTime"}}
+    ]
+  },
+  {
+    "name": "PassportStatus",
+    "type": "enum",
+    "symbols": ["valid", "invalid", "no_information"]
+  },
+  {
+    "name": "InvalidityReason",
+    "type": "enum",
+    "symbols": ["expired","replaced","with_violation","in_search","destroyes","owner_death","technical_defect","lost"]
+  },
+  {
+    "name": "RFPassportDoc",
+    "type": "record",
+    "logicalType": "ValueObject",
+    "fields": [
+      { "name": "status", "type": "Status" },
+      { "name": "relevance", "type": "Relevance" },
+      { "name": "message", "type": ["null", "string"] },
+      { "name": "series", "type": "string"},
+      { "name": "number", "type": "string"},
+      { "name": "issued", "type": {"type": "string", "logicalType": "DateTime"}},
+      { "name": "departmentDoc", "type": ["null", "string"] },
+      { "name": "getDateDoc", "type": ["null", {"type": "string", "logicalType": "DateTime"}] },
+      { "name": "validateDateDoc", "type": ["null", {"type": "string", "logicalType": "DateTime"}] },
+      { "name": "name", "type": "string"},
+      { "name": "patronymic", "type": ["null", "string"] },
+      { "name": "surname", "type": "string" },
+      { "name": "gender", "type": "string" },
+      { "name": "birthdate", "type": {"type": "string", "logicalType": "DateTime"} },
+      { "name": "birthplace", "type": "string" },
+      { "name": "issued_by", "type": "string" },
+      { "name": "division", "type": "string" },
+      { "name": "passport_status", "type": "PassportStatus" },
+      { "name": "invalidityReason", "type": ["null", "InvalidityReason"] }
+    ]
+  },
+  {
+    "name": "PassportType",
+    "type": "enum",
+    "symbols": ["P", "D", "S"]
+  },
+  {
+    "name": "FrgnPassportDoc",
+    "type": "record",
+    "logicalType": "ValueObject",
+    "fields": [
+      { "name": "status", "type": "Status" },
+      { "name": "relevance", "type": "Relevance" },
+      { "name": "message", "type": ["null", "string"] },
+      { "name": "series", "type": "string"},
+      { "name": "number", "type": "string"},
+      { "name": "issued", "type": {"type": "string", "logicalType": "DateTime"}},
+      { "name": "departmentDoc", "type": ["null", "string"] },
+      { "name": "getDateDoc", "type": ["null", {"type": "string", "logicalType": "DateTime"}] },
+      { "name": "validateDateDoc", "type": ["null", {"type": "string", "logicalType": "DateTime"}] },
+      { "name": "name", "type": ["null", "string"]},
+      { "name": "patronymic", "type": ["null", "string"] },
+      { "name": "surname", "type": ["null", "string"]},
+      { "name": "gender", "type": "string"},
+      { "name": "birthdate", "type": {"type": "string", "logicalType": "DateTime"}},
+      { "name": "birthplace", "type": "string"},
+      { "name": "latinName", "type": "string"},
+      { "name": "latinSurname", "type": "string"},
+      { "name": "issuedBy", "type": "string"},
+      { "name": "expired", "type": {"type": "string", "logicalType": "DateTime"}},
+      { "name": "countryName", "type": ["null", "string"]},
+      { "name": "passportType", "type": ["null", "PassportType"]},
+      { "name": "passportStatus", "type": ["null", "PassportStatus"]},
+      { "name": "invalidityReason", "type": ["null", "InvalidityReason"]}
+    ]
+  },
+  {
+    "name": "Category",
+    "type": "enum",
+    "symbols": ["А","А1","В","ВE","В1","С","СE","С1","С1E","D","DE","D1","D1E","М","Tm","Tb"]
+  },
+  {
+    "name": "RFDrivingLicenseDoc",
+    "type": "record",
+    "logicalType": "ValueObject",
+    "fields": [
+      { "name": "status", "type": "Status" },
+      { "name": "relevance", "type": "Relevance" },
+      { "name": "message", "type": ["null", "string"] },
+      { "name": "series", "type": "string"},
+      { "name": "number", "type": "string"},
+      { "name": "issued", "type": {"type": "string", "logicalType": "DateTime"}},
+      { "name": "departmentDoc", "type": ["null", "string"] },
+      { "name": "getDateDoc", "type": ["null", {"type": "string", "logicalType": "DateTime"}] },
+      { "name": "validateDateDoc", "type": ["null", {"type": "string", "logicalType": "DateTime"}] },
+      { "name": "name", "type": ["null", "string"] },
+      { "name": "patronymic", "type": ["null", "string"] },
+      { "name": "surname", "type": ["null", "string"] },
+      { "name": "birthdate", "type": ["null", {"type": "string", "logicalType": "DateTime"}]},
+      { "name": "birthplace", "type": ["null", "string"] },
+      { "name": "countryName", "type": ["null", "string"] },
+      { "name": "issuedBy", "type": "string" },
+      { "name": "expired", "type": ["null", {"type": "string", "logicalType": "DateTime"}] },
+      { "name": "categories", "type": ["null", { "type": "array", "items": "Category" }] },
+      { "name": "experince", "type": ["null", {"type": "string", "logicalType": "DateTime"}] }
+    ]
+  },
+  {
+    "name": "FIDDoc",
+    "type": "record",
+    "logicalType": "ValueObject",
+    "fields": [
+      { "name": "status", "type": "Status" },
+      { "name": "relevance", "type": "Relevance" },
+      { "name": "message", "type": ["null", "string"] },
+      { "name": "series", "type": ["null", "string"] },
+      { "name": "number", "type": "string"},
+      { "name": "issued", "type": {"type": "string", "logicalType": "DateTime"}},
+      { "name": "departmentDoc", "type": ["null", "string"] },
+      { "name": "getDateDoc", "type": ["null", {"type": "string", "logicalType": "DateTime"}] },
+      { "name": "validateDateDoc", "type": ["null", {"type": "string", "logicalType": "DateTime"}] }
+    ]
+  },
+  {
+    "name": "FidBrthCertDoc",
+    "type": "record",
+    "logicalType": "ValueObject",
+    "fields": [
+      { "name": "status", "type": "Status" },
+      { "name": "relevance", "type": "Relevance" },
+      { "name": "message", "type": ["null", "string"] },
+      { "name": "departmentDoc", "type": ["null", "string"] },
+      { "name": "getDateDoc", "type": ["null", {"type": "string", "logicalType": "DateTime"}] },
+      { "name": "validateDateDoc", "type": ["null", {"type": "string", "logicalType": "DateTime"}] },
+      { "name": "series", "type": ["null", "string"] },
+      { "name": "number", "type": "string"},
+      { "name": "issued", "type": {"type": "string", "logicalType": "DateTime"}},
+      { "name": "issuedBy", "type": "string"}
+    ]
+  },
+  {
+    "name": "OldBrthCertDoc",
+    "type": "record",
+    "logicalType": "ValueObject",
+    "fields": [
+      { "name": "status", "type": "Status" },
+      { "name": "relevance", "type": "Relevance" },
+      { "name": "message", "type": ["null", "string"] },
+      { "name": "departmentDoc", "type": ["null", "string"] },
+      { "name": "getDateDoc", "type": ["null", {"type": "string", "logicalType": "DateTime"}] },
+      { "name": "validateDateDoc", "type": ["null", {"type": "string", "logicalType": "DateTime"}] },
+      { "name": "series", "type": ["null", "string"] },
+      { "name": "number", "type": "string"},
+      { "name": "issued", "type": {"type": "string", "logicalType": "DateTime"}},
+      { "name": "issuedBy", "type": "string"},
+      { "name": "actNumber", "type": ["null", "string"]}
+    ]
+  },
+  {
+    "name": "MdclPlcyDoc",
+    "type": "record",
+    "logicalType": "ValueObject",
+    "fields": [
+      { "name": "status", "type": "Status" },
+      { "name": "relevance", "type": "Relevance" },
+      { "name": "message", "type": ["null", "string"] },
+      { "name": "departmentDoc", "type": ["null", "string"] },
+      { "name": "getDateDoc", "type": ["null", {"type": "string", "logicalType": "DateTime"}] },
+      { "name": "validateDateDoc", "type": ["null", {"type": "string", "logicalType": "DateTime"}] },
+      { "name": "number", "type": "string"},
+      { "name": "expiryDate", "type": ["null", {"type": "string", "logicalType": "DateTime"}]}
+    ]
+  },
+  {
+    "name": "RegType",
+    "type": "enum",
+    "symbols": ["1", "2"]
+  },
+  {
+    "name": "RegistrationDoc",
+    "type": "record",
+    "logicalType": "ValueObject",
+    "fields": [
+      { "name": "status", "type": "Status" },
+      { "name": "relevance", "type": "Relevance" },
+      { "name": "message", "type": ["null", "string"] },
+      { "name": "departmentDoc", "type": ["null", "string"] },
+      { "name": "getDateDoc", "type": ["null", {"type": "string", "logicalType": "DateTime"}] },
+      { "name": "validateDateDoc", "type": ["null", {"type": "string", "logicalType": "DateTime"}] },
+      { "name": "dateFrom", "type": ["null", {"type": "string", "logicalType": "DateTime"}] },
+      { "name": "dateTo", "type": ["null", {"type": "string", "logicalType": "DateTime"}] },
+      { "name": "regType", "type": "RegType" }
+    ]
+  },
+  {
+    "name": "MarriedCertDoc",
+    "type": "record",
+    "logicalType": "ValueObject",
+    "fields": [
+      { "name": "status", "type": "Status" },
+      { "name": "relevance", "type": "Relevance" },
+      { "name": "message", "type": ["null", "string"] },
+      { "name": "series", "type": "string" },
+      { "name": "number", "type": "string" },
+      { "name": "issued", "type": {"type": "string", "logicalType": "DateTime"} },
+      { "name": "departmentDoc", "type": ["null", "string"] },
+      { "name": "getDateDoc", "type": ["null", {"type": "string", "logicalType": "DateTime"}] }
+    ]
+  },
+  {
+    "name": "DivorceCertDoc",
+    "type": "record",
+    "logicalType": "ValueObject",
+    "fields": [
+      { "name": "status", "type": "Status" },
+      { "name": "relevance", "type": "Relevance" },
+      { "name": "message", "type": ["null", "string"] },
+      { "name": "series", "type": "string" },
+      { "name": "number", "type": "string" },
+      { "name": "issued", "type": {"type": "string", "logicalType": "DateTime"} },
+      { "name": "departmentDoc", "type": ["null", "string"] },
+      { "name": "getDateDoc", "type": ["null", {"type": "string", "logicalType": "DateTime"}] }
+    ]
+  },
+  {
+    "name": "RFBrthCertDoc",
+    "type": "record",
+    "logicalType": "ValueObject",
+    "fields": [
+      { "name": "status", "type": "Status" },
+      { "name": "relevance", "type": "Relevance" },
+      { "name": "message", "type": ["null", "string"] },
+      { "name": "series", "type": "string" },
+      { "name": "number", "type": "string" },
+      { "name": "issued", "type": {"type": "string", "logicalType": "DateTime"} },
+      { "name": "departmentDoc", "type": ["null", "string"] },
+      { "name": "getDateDoc", "type": ["null", {"type": "string", "logicalType": "DateTime"}] }
+    ]
+  },
+  {
+    "name": "FatherHoodCertDoc",
+    "type": "record",
+    "logicalType": "ValueObject",
+    "fields": [
+      { "name": "status", "type": "Status" },
+      { "name": "relevance", "type": "Relevance" },
+      { "name": "message", "type": ["null", "string"] },
+      { "name": "series", "type": "string" },
+      { "name": "number", "type": "string" },
+      { "name": "issued", "type": {"type": "string", "logicalType": "DateTime"} },
+      { "name": "departmentDoc", "type": ["null", "string"] },
+      { "name": "getDateDoc", "type": ["null", {"type": "string", "logicalType": "DateTime"}] }
+    ]
+  },
+  {
+    "name": "NameChangeCertDoc",
+    "type": "record",
+    "logicalType": "ValueObject",
+    "fields": [
+      { "name": "status", "type": "Status" },
+      { "name": "relevance", "type": "Relevance" },
+      { "name": "message", "type": ["null", "string"] },
+      { "name": "series", "type": "string" },
+      { "name": "number", "type": "string" },
+      { "name": "issued", "type": {"type": "string", "logicalType": "DateTime"} },
+      { "name": "departmentDoc", "type": ["null", "string"] },
+      { "name": "getDateDoc", "type": ["null", {"type": "string", "logicalType": "DateTime"}] }
+    ]
+  },
+  {
+    "name": "DeathCertDoc",
+    "type": "record",
+    "logicalType": "ValueObject",
+    "fields": [
+      { "name": "status", "type": "Status" },
+      { "name": "relevance", "type": "Relevance" },
+      { "name": "message", "type": ["null", "string"] },
+      { "name": "series", "type": "string" },
+      { "name": "number", "type": "string" },
+      { "name": "issued", "type": {"type": "string", "logicalType": "DateTime"} },
+      { "name": "departmentDoc", "type": ["null", "string"] },
+      { "name": "getDateDoc", "type": ["null", {"type": "string", "logicalType": "DateTime"}] }
+    ]
+  },
+  {
+    "name": "VehicleRegistration",
+    "type": "record",
+    "logicalType": "ValueObject",
+    "fields": [
+      { "name": "registrationDocSeries", "type": ["null", "string"] },
+      { "name": "registrationDocNumber", "type": ["null", "string"] }
+    ]
+  },
+  {
+    "name": "Vehicle",
+    "type": "record",
+    "logicalType": "ValueObject",
+    "fields": [
+      { "name": "status", "type": "Status" },
+      { "name": "relevance", "type": "Relevance" },
+      { "name": "message", "type": ["null", "string"] },
+      { "name": "issued", "type": {"type": "string", "logicalType": "DateTime"} },
+      { "name": "departmentDoc", "type": ["null", "string"] },
+      { "name": "getDateDoc", "type": ["null", {"type": "string", "logicalType": "DateTime"}] },
+      { "name": "validateDateDoc", "type": ["null", {"type": "string", "logicalType": "DateTime"}] },
+      { "name": "carName", "type": ["null", "string"] },
+      { "name": "registrationPlate", "type": "string" },
+      { "name": "vin", "type": ["null", "string"] },
+      { "name": "brand", "type": ["null", "string"] },
+      { "name": "model", "type": ["null", "string"] },
+      { "name": "vehicleCategory", "type": ["null", "string"] },
+      { "name": "productionYear", "type": ["null", "int"] },
+      { "name": "engineNumber", "type": ["null", "string"] },
+      { "name": "bodyNumber", "type": ["null", "string"] },
+      { "name": "chassisNumber", "type": ["null", "string"] },
+      { "name": "registration", "type": ["null", "VehicleRegistration"] }
+    ]
+  },
+  {
+    "name": "VehicleDoc",
+    "type": "record",
+    "logicalType": "ValueObject",
+    "fields": [
+      {"name": "vehicles", "type": { "type": "array", "items": "Vehicle" } }
+    ]
+  },
+  {
+    "name": "MediumType",
+    "type": "enum",
+    "symbols": ["phone", "email"]
+  },
+  {
+    "name": "QALevel",
+    "type": "enum",
+    "symbols" : ["0", "1", "2", "3", "4"]
+  },
+  {
+    "name": "ValidDate",
+    "type": "record",
+    "logicalType": "ValueObject",
+    "fields": [
+      { "name": "startDateTime", "type": {"type": "string", "logicalType": "DateTime"} },
+      { "name": "endDateTime", "type": [ "null", { "type": "string", "logicalType": "DateTime"} ] }
+    ]
+  },
+  {
+    "name": "PhoneNumber",
+    "type": "record",
+    "logicalType": "ValueObject",
+    "fields": [
+      { "name": "value", "type": "string" }
+    ]
+  },
+  {
+    "name": "Email",
+    "type": "record",
+    "logicalType": "ValueObject",
+    "fields": [
+      { "name": "value", "type": "string" }
+    ]
+  },
+  {
+    "name": "Error",
+    "type": "record",
+    "logicalType": "ValueObject",
+    "fields": [
+      { "name": "errorCode", "type": "string" },
+      { "name": "message", "type": "string" }
+    ]
+  },
+  {
+    "name": "Metadata",
+    "type": "record",
+    "logicalType": "ValueObject",
+    "fields": [
+      { "name": "createdAt", "type": ["null", {"type": "string", "logicalType": "DateTime"}] },
+      { "name": "createdBy", "type": "string" },
+      { "name": "qaLevel", "type": "QALevel" },
+      { "name": "validFor", "type": "ValidDate" },
+      { "name": "status", "type": ["null", "string"] },
+      { "name": "comment", "type": ["null", "string"] },
+      { "name": "logRef", "type": ["null", "string"] },
+      { "name": "error", "type": ["null", "Error"] }
+    ]
+  },
+  {
+    "name": "ContactMedium",
+    "type": "record",
+    "logicalType": "Aggregate",
+    "fields": [
+      { "name": "uuid", "type": "string" },
+      { "name": "individualUUID", "type": "string" },
+      { "name": "contactType","type": "ContactType" },
+      { "name": "metadata", "type": "Metadata" },
+      { "name": "objectType", "type": "MediumType" },
+      { "name": "phoneNumber", "type": ["null", "PhoneNumber"] },
+      { "name": "email", "type": ["null", "Email"] }
+    ],
+    "indexes": [
+      { "name": "uuid-individualUUID", "parts": ["uuid", "individualUUID"] },
+      "uuid",
+      "individualUUID"
+    ],
+    "affinity": ["individualUUID"]
+  },
+  {
+    "name": "Characteristic",
+    "type": "record",
+    "logicalType": "ValueObject",
+    "fields": [
+      { "name": "name", "type": "string"},
+      { "name": "value", "type": "string"}
+    ]
+  },
+  {
+    "name": "Reference",
+    "type": "record",
+    "logicalType": "Aggregate",
+    "fields": [
+      { "name": "uuid", "type": "string" },
+      { "name": "individualUUID", "type": "string" },
+      { "name": "href", "type": "string"},
+      { "name": "type", "type": "string"}
+    ],
+    "indexes": [
+      { "name": "uuid-individualUUID", "parts": ["uuid", "individualUUID"] },
+      "uuid",
+      "individualUUID"
+    ],
+    "affinity": ["individualUUID"]
+  },
+  {
+    "name": "Party",
+    "type": "record",
+    "logicalType": "Aggregate",
+    "fields": [
+      { "name": "uuid", "type": "string" },
+      { "name": "individualUUID", "type": "string" },
+      { "name": "referredType", "type": ["null", "string"] },
+      { "name": "href", "type": ["null", "string"] },
+      { "name": "name", "type": "string"},
+      { "name": "role", "type": "string"},
+      { "name": "metadata", "type": "Metadata" }
+    ],
+    "indexes": [
+      { "name": "uuid-individualUUID", "parts": ["uuid", "individualUUID"] },
+      "uuid",
+      "individualUUID"
+    ],
+    "affinity": ["individualUUID"]
+  },
+  {
+    "name": "Individual",
+    "type": "record",
+    "logicalType": "Aggregate",
+    "fields": [
+      { "name": "uuid", "type": "string" },
+      { "name": "ucn", "type": ["null","string"] },
+      { "name": "title", "type": "string"},
+      { "name": "givenName", "type": ["null", "string"] },
+      { "name": "familyName", "type": ["null", "string"] },
+      { "name": "middleName", "type": ["null", "string"] },
+      { "name": "fullName", "type": ["null", "string"] },
+      { "name": "formattedName", "type": ["null", "string"] },
+      { "name": "href", "type": ["null", "string"] },
+      { "name": "gender", "type": ["null", "Gender"] },
+      { "name": "placeOfBirth", "type": ["null", "string"] },
+      { "name": "countryOfBirth", "type": ["null", "string"] },
+      { "name": "maritalStatus", "type": ["null", "MaritalStatus"] },
+      { "name": "birthDate", "type": ["null", {"type": "string", "logicalType": "DateTime"}] },
+      { "name": "location", "type": ["null", "string"] },
+      { "name": "type", "type": "IndividualType" },
+      { "name": "characteristic", "type": { "type": "array", "items": "Characteristic" } },
+      { "name": "metadata", "type": "Metadata" }
+    ],
+    "indexes": ["uuid", {"name": "qaLevel", "parts": ["uuid", "metadata.qaLevel"]}, "ucn"],
+    "relations": [
+      {
+        "name": "documents",
+        "to": "Document",
+        "count": "many",
+        "from_fields": "uuid",
+        "to_fields": "individualUUID"
+      },
+      {
+        "name": "contactMedium",
+        "to": "ContactMedium",
+        "count": "many",
+        "from_fields": "uuid",
+        "to_fields": "individualUUID"
+      },
+      {
+        "name": "relatedParty",
+        "to": "Party",
+        "count": "many",
+        "from_fields": "uuid",
+        "to_fields": "individualUUID"
+      },
+      {
+        "name": "crossLinks",
+        "to": "CrossLinks",
+        "count": "many",
+        "from_fields": "uuid",
+        "to_fields": "individualUUID"
+      },
+      {
+        "name": "externalReference",
+        "to": "Reference",
+        "count": "many",
+        "from_fields": "uuid",
+        "to_fields": "individualUUID"
+      },
+      {
+        "name": "avatar",
+        "to": "Avatar",
+        "count": "many",
+        "from_fields": "uuid",
+        "to_fields": "individualUUID"
+      },
+      {
+        "name": "address",
+        "to": "Address",
+        "count": "many",
+        "from_fields": "uuid",
+        "to_fields": "individualUUID"
+      }
+    ]
+  },
+  {
+    "name": "Document",
+    "type": "record",
+    "logicalType": "Aggregate",
+    "fields": [
+      { "name": "uuid", "type": "string" },
+      { "name": "individualUUID", "type": "string" },
+      { "name": "type", "type": "DocumentType"},
+      { "name": "identificationId", "type": "string"},
+      { "name": "issuingAuthority", "type": "string" },
+      { "name": "issuingDate", "type": {"type": "string", "logicalType": "DateTime"} },
+      { "name": "snilsDoc", "type": ["null", "SNILSDoc"] },
+      { "name": "rfPassportDoc", "type": ["null", "RFPassportDoc"] },
+      { "name": "frgnPassportDoc", "type": ["null", "FrgnPassportDoc"] },
+      { "name": "rfDrivingLicenseDoc", "type": ["null", "RFDrivingLicenseDoc"] },
+      { "name": "fidDoc", "type": ["null", "FIDDoc"] },
+      { "name": "fidBrthCertDoc", "type": ["null", "FidBrthCertDoc"] },
+      { "name": "oldBrthCertDoc", "type": ["null", "OldBrthCertDoc"] },
+      { "name": "mdclPlcyDoc", "type": ["null", "MdclPlcyDoc"] },
+      { "name": "registrationDoc", "type": ["null", "RegistrationDoc"] },
+      { "name": "marriedCertDoc", "type": ["null", "MarriedCertDoc"] },
+      { "name": "divorceCertDoc", "type": ["null", "DivorceCertDoc"] },
+      { "name": "rfBrthCertDoc", "type": ["null", "RFBrthCertDoc"] },
+      { "name": "fatherHoodCertDoc", "type": ["null", "FatherHoodCertDoc"] },
+      { "name": "nameChangeCertDoc", "type": ["null", "NameChangeCertDoc"] },
+      { "name": "deathCertDoc", "type": ["null", "DeathCertDoc"] },
+      { "name": "vehicleDoc", "type": ["null", "VehicleDoc"] },
+      { "name": "metadata", "type": "Metadata" }
+    ],
+    "indexes": [
+      { "name": "uuid-individualUUID", "parts": ["uuid", "individualUUID"] },
+      { "name": "qaLevel", "parts": ["uuid", "individualUUID", "metadata.qaLevel"] },
+      "uuid",
+      "individualUUID"
+    ],
+    "relations": [
+      {
+        "name": "individual",
+        "to": "Individual",
+        "count": "one",
+        "from_fields": "individualUUID",
+        "to_fields": "uuid"
+      }
+    ],
+    "affinity": ["individualUUID"]
+  },
+  {
+    "name": "CrossLinks",
+    "type": "record",
+    "logicalType": "Aggregate",
+    "fields": [
+      { "name": "uuid", "type": "string" },
+      { "name": "individualUUID", "type": "string" },
+      { "name": "endDate", "type": {"type": "string", "logicalType": "DateTime"} },
+      { "name": "externalId", "type": "string" },
+      { "name": "partyUId", "type": "string" },
+      { "name": "savedAt", "type": {"type": "string", "logicalType": "DateTime"} },
+      { "name": "systemNumber", "type": "string" }
+    ],
+    "indexes": [
+      { "name": "uuid-individualUUID", "parts": ["uuid", "individualUUID"] },
+      "uuid",
+      "individualUUID"
+    ],
+    "relations": [
+      {
+        "name": "individual",
+        "to": "Individual",
+        "count": "one",
+        "from_fields": "individualUUID",
+        "to_fields": "uuid"
+      }
+    ],
+    "affinity": ["individualUUID"]
+  },
+  {
+    "name": "Avatar",
+    "type": "record",
+    "logicalType": "Aggregate",
+    "fields": [
+      { "name": "uuid", "type": "string" },
+      { "name": "individualUUID", "type": "string" },
+      { "name": "file", "type": "string" },
+      { "name": "isPublic", "type": "boolean" },
+      { "name": "metadata", "type": "Metadata" }
+    ],
+    "indexes": [
+      { "name": "uuid-individualUUID", "parts": ["uuid", "individualUUID"] },
+      "uuid",
+      "individualUUID"
+    ],
+    "relations": [
+      {
+        "name": "individual",
+        "to": "Individual",
+        "count": "one",
+        "from_fields": "individualUUID",
+        "to_fields": "uuid"
+      }
+    ],
+    "affinity": ["individualUUID"]
+  },
+  {
+    "name": "Address",
+    "type": "record",
+    "logicalType": "Aggregate",
+    "fields": [
+      { "name": "uuid", "type": "string" },
+      { "name": "individualUUID", "type": "string" },
+      { "name": "type", "type": "AddressType" },
+      { "name": "addressStr", "type": "string" },
+      { "name": "countryId", "type": "string" },
+      { "name": "zipCode", "type": "string" },
+      { "name": "region", "type": "string" },
+      { "name": "area", "type": "string" },
+      { "name": "additionArea", "type": "string" },
+      { "name": "city", "type": "string" },
+      { "name": "district", "type": "string" },
+      { "name": "settlement", "type": "string" },
+      { "name": "street", "type": "string" },
+      { "name": "additionAreaStreet", "type": "string" },
+      { "name": "house", "type": "string" },
+      { "name": "frame", "type": "string" },
+      { "name": "building", "type": "string" },
+      { "name": "flat", "type": "string" },
+      { "name": "fiasCode", "type": "string" },
+      { "name": "metadata", "type": "Metadata" }
+    ],
+    "indexes": [
+      { "name": "uuid-individualUUID", "parts": ["uuid", "individualUUID"] },
+      "uuid",
+      "individualUUID"
+    ],
+    "relations": [
+      {
+        "name": "individual",
+        "to": "Individual",
+        "count": "one",
+        "from_fields": "individualUUID",
+        "to_fields": "uuid"
+      }
+    ],
+    "affinity": ["individualUUID"]
+  },
+  {
+    "name": "AvatarProxy",
+    "type": "record",
+    "logicalType": "ValueObject",
+    "fields": [
+      { "name": "uuid", "type": ["null" ,"string"] },
+      { "name": "individualUUID", "type": "string" },
+      { "name": "file", "type": ["null","string"] },
+      { "name": "isPublic", "type": ["null","boolean"] },
+      { "name": "metadata", "type": "Metadata" }
+    ]
+  },
+  {
+    "name": "IndividualProxy",
+    "type": "record",
+    "logicalType": "ValueObject",
+    "fields": [
+      { "name": "uuid", "type": ["null" ,"string"] },
+      { "name": "ucn", "type": ["null","string"] },
+      { "name": "title", "type": ["null","string"] },
+      { "name": "givenName", "type": ["null", "string"] },
+      { "name": "familyName", "type": ["null", "string"] },
+      { "name": "middleName", "type": ["null", "string"] },
+      { "name": "fullName", "type": ["null", "string"] },
+      { "name": "formattedName", "type": ["null", "string"] },
+      { "name": "href", "type": ["null", "string"] },
+      { "name": "gender", "type": ["null", "Gender"] },
+      { "name": "placeOfBirth", "type": ["null", "string"] },
+      { "name": "countryOfBirth", "type": ["null", "string"] },
+      { "name": "maritalStatus", "type": ["null", "MaritalStatus"] },
+      { "name": "birthDate", "type": ["null", {"type": "string", "logicalType": "DateTime"}] },
+      { "name": "location", "type": ["null", "string"] },
+      { "name": "type", "type": ["null", "IndividualType"]  },
+      { "name": "characteristic", "type": ["null", { "type": "array", "items": "Characteristic" }] },
+      { "name": "metadata", "type": "Metadata" }
+    ]
+  },
+  {
+    "name": "CrossLinksProxy",
+    "type": "record",
+    "logicalType": "ValueObject",
+    "fields": [
+      { "name": "uuid", "type": ["null" ,"string"] },
+      { "name": "individualUUID", "type": "string" },
+      { "name": "endDate", "type": ["null", {"type": "string", "logicalType": "DateTime"}] },
+      { "name": "externalId", "type": ["null" ,"string"] },
+      { "name": "partyUId", "type": ["null" ,"string"] },
+      { "name": "savedAt", "type": ["null", {"type": "string", "logicalType": "DateTime"}] },
+      { "name": "systemNumber", "type": ["null" ,"string"] }
+    ]
+  },
+  {
+    "name": "AddressProxy",
+    "type": "record",
+    "logicalType": "ValueObject",
+    "fields": [
+      { "name": "uuid", "type": ["null" ,"string"] },
+      { "name": "individualUUID", "type": "string" },
+      { "name": "type", "type": ["null","AddressType"] },
+      { "name": "addressStr", "type": ["null" ,"string"] },
+      { "name": "countryId", "type": ["null" ,"string"] },
+      { "name": "zipCode", "type": ["null" ,"string"] },
+      { "name": "region", "type": ["null" ,"string"] },
+      { "name": "area", "type": ["null" ,"string"] },
+      { "name": "additionArea", "type": ["null" ,"string"] },
+      { "name": "city", "type": ["null" ,"string"] },
+      { "name": "district", "type": ["null" ,"string"] },
+      { "name": "settlement", "type": ["null" ,"string"] },
+      { "name": "street", "type": ["null" ,"string"] },
+      { "name": "additionAreaStreet", "type": ["null" ,"string"] },
+      { "name": "house", "type": ["null" ,"string"] },
+      { "name": "frame", "type": ["null" ,"string"] },
+      { "name": "building", "type": ["null" ,"string"] },
+      { "name": "flat", "type": ["null" ,"string"] },
+      { "name": "fiasCode", "type": ["null" ,"string"] },
+      { "name": "metadata", "type": "Metadata" }
+    ]
+  }
+]
