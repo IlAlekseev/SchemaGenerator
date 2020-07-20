@@ -47,27 +47,9 @@
         ]
     },
     {
-        "name": "AddressType",
-        "type": "enum",
-        "symbols": [
-            "регистрациии",
-            "проживания"
-        ]
-    },
-    {
         "name": "Status",
         "type": "enum",
         "symbols": ["trusted", "verified", "verifying", "unverified"]
-    },
-    {
-        "name": "MaritalStatus",
-        "type": "enum",
-        "symbols": ["женат", "замужем", "холост", "разведен"]
-    },
-    {
-        "name": "ContactType",
-        "type": "enum",
-        "symbols": ["домашний", "доверенный", "рабочий"]
     },
     {
         "name": "Relevance",
@@ -105,19 +87,16 @@
         "type": "record",
         "logicalType": "ValueObject",
         "fields": [
-            { "name": "status", "type": "Status" },
-            { "name": "relevance", "type": "Relevance" },
-            { "name": "message", "type": ["null", "string"] },
             { "name": "series", "type": "string"},
             { "name": "number", "type": "string"},
             { "name": "issued", "type": {"type": "string", "logicalType": "DateTime"}},
             { "name": "departmentDoc", "type": ["null", "string"] },
-            { "name": "getDateDoc", "type": ["null", {"type": "string", "logicalType": "DateTime"}] },
+            { "name": "receiptDocDate", "type": ["null", {"type": "string", "logicalType": "DateTime"}] },
             { "name": "validateDateDoc", "type": ["null", {"type": "string", "logicalType": "DateTime"}] },
             { "name": "name", "type": "string"},
             { "name": "patronymic", "type": ["null", "string"] },
             { "name": "surname", "type": "string" },
-            { "name": "gender", "type": "string" },
+            { "name": "gender", "type": "Gender" },
             { "name": "birthdate", "type": {"type": "string", "logicalType": "DateTime"} },
             { "name": "birthplace", "type": "string" },
             { "name": "issued_by", "type": "string" },
@@ -171,14 +150,12 @@
         "type": "record",
         "logicalType": "ValueObject",
         "fields": [
-            { "name": "status", "type": "Status" },
-            { "name": "relevance", "type": "Relevance" },
-            { "name": "message", "type": ["null", "string"] },
+            { "name": "oid", "type": "string" },
             { "name": "series", "type": "string"},
             { "name": "number", "type": "string"},
             { "name": "issued", "type": {"type": "string", "logicalType": "DateTime"}},
             { "name": "departmentDoc", "type": ["null", "string"] },
-            { "name": "getDateDoc", "type": ["null", {"type": "string", "logicalType": "DateTime"}] },
+            { "name": "receiptDocDate", "type": ["null", {"type": "string", "logicalType": "DateTime"}] },
             { "name": "validateDateDoc", "type": ["null", {"type": "string", "logicalType": "DateTime"}] },
             { "name": "name", "type": ["null", "string"] },
             { "name": "patronymic", "type": ["null", "string"] },
@@ -187,9 +164,9 @@
             { "name": "birthplace", "type": ["null", "string"] },
             { "name": "countryName", "type": ["null", "string"] },
             { "name": "issuedBy", "type": "string" },
-            { "name": "expired", "type": ["null", {"type": "string", "logicalType": "DateTime"}] },
+            { "name": "expiryDate", "type": ["null", {"type": "string", "logicalType": "DateTime"}] },
             { "name": "categories", "type": ["null", { "type": "array", "items": "Category" }] },
-            { "name": "experince", "type": ["null", {"type": "string", "logicalType": "DateTime"}] }
+            { "name": "experience", "type": ["null", "string"] }
         ]
     },
     {
@@ -379,16 +356,13 @@
         ]
     },
     {
-        "name": "Vehicle",
+        "name": "VehicleDoc",
         "type": "record",
         "logicalType": "ValueObject",
         "fields": [
-            { "name": "status", "type": "Status" },
-            { "name": "relevance", "type": "Relevance" },
-            { "name": "message", "type": ["null", "string"] },
             { "name": "issued", "type": {"type": "string", "logicalType": "DateTime"} },
             { "name": "departmentDoc", "type": ["null", "string"] },
-            { "name": "getDateDoc", "type": ["null", {"type": "string", "logicalType": "DateTime"}] },
+            { "name": "receiptDocDate", "type": ["null", {"type": "string", "logicalType": "DateTime"}] },
             { "name": "validateDateDoc", "type": ["null", {"type": "string", "logicalType": "DateTime"}] },
             { "name": "carName", "type": ["null", "string"] },
             { "name": "registrationPlate", "type": "string" },
@@ -401,14 +375,6 @@
             { "name": "bodyNumber", "type": ["null", "string"] },
             { "name": "chassisNumber", "type": ["null", "string"] },
             { "name": "registration", "type": ["null", "VehicleRegistration"] }
-        ]
-    },
-    {
-        "name": "VehicleDoc",
-        "type": "record",
-        "logicalType": "ValueObject",
-        "fields": [
-            {"name": "vehicles", "type": { "type": "array", "items": "Vehicle" } }
         ]
     },
     {
