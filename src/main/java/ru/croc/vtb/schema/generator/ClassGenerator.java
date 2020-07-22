@@ -1,5 +1,14 @@
 package ru.croc.vtb.schema.generator;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.commons.lang3.text.WordUtils;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.CaseFormat;
@@ -14,7 +23,7 @@ import com.sun.codemodel.JMod;
 import com.sun.codemodel.JPackage;
 import com.sun.codemodel.JType;
 import com.sun.codemodel.JVar;
-import org.apache.commons.lang3.text.WordUtils;
+
 import ru.croc.vtb.profile.common.dto.schema.DtoRelation;
 import ru.croc.vtb.profile.common.dto.schema.DtoType;
 import ru.croc.vtb.profile.common.dto.schema.IndividualRelationDto;
@@ -25,14 +34,8 @@ import ru.croc.vtb.schema.info.EnumInfo;
 import ru.croc.vtb.schema.info.FieldInfo;
 import ru.croc.vtb.schema.info.IClassInfo;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-
 public class ClassGenerator {
+
     public static final Map<String, Class<?>> TYPE_TO_CLASS_MAP = new HashMap<>();
 
     static {
@@ -42,14 +45,13 @@ public class ClassGenerator {
         TYPE_TO_CLASS_MAP.put("boolean", Boolean.class);
     }
 
-    private String packageName;
+    private final String packageName;
 
     public ClassGenerator(final String packageName) {
         this.packageName = packageName;
     }
 
     public void generateClasses(final Collection<IClassInfo> rootInfos) {
-
         final JCodeModel codeModel = new JCodeModel();
         final JPackage pack = codeModel._package(packageName);
         final Collection<String> individualRelations = new ArrayList<>();
@@ -60,7 +62,12 @@ public class ClassGenerator {
                     if (classInfo.getName().contains("Proxy")) {
                         continue;
                     }
-                    final JDefinedClass aClass = pack._class(formatClassName(classInfo.getName()));
+                    final JDefinedClass aClass;
+                    if (shouldBeAbstract(classInfo)) {
+                        aClass = pack._class(JMod.ABSTRACT | JMod.PUBLIC, formatClassName(classInfo.getName()));
+                    } else {
+                        aClass = pack._class(formatClassName(classInfo.getName()));
+                    }
                     final JAnnotationUse classAnnotation = aClass.annotate(DtoType.class);
                     classAnnotation.param("name", classInfo.getName());
                     classAnnotation.param("type", classInfo.getType());
@@ -94,7 +101,9 @@ public class ClassGenerator {
                             generateGetterAndSetter(jVar, aClass, codeModel);
                         }
 
-                        final JVar fieldStatic = fieldsClass.field(JMod.STATIC | JMod.PUBLIC | JMod.FINAL, String.class, formatStaticFieldName(field.getName()));
+                        final JVar fieldStatic = fieldsClass.field(JMod.STATIC | JMod.PUBLIC | JMod.FINAL,
+                                String.class,
+                                formatStaticFieldName(field.getName()));
                         fieldStatic.init(JExpr.lit(field.getName()));
 
                         final JAnnotationUse jsonAnnotation = jVar.annotate(JsonProperty.class);
@@ -114,8 +123,10 @@ public class ClassGenerator {
                                 individualRelations.add(field.getType());
                             }
                         } else {
-                            if (!field.isCollection() && !field.isOptional() &&
-                                    !field.getName().equals("uuid") && !field.getName().equals("individualUUID")) {
+                            if (!field.isCollection()
+                                    && !field.isOptional()
+                                    && !field.getName().equals("uuid")
+                                    && !field.getName().equals("individualUUID")) {
                                 jsonAnnotation.param("required", true);
                             }
                         }
@@ -149,6 +160,10 @@ public class ClassGenerator {
         }
     }
 
+    private boolean shouldBeAbstract(ClassInfo classInfo) {
+        return classInfo.getName().equals("Metadata");
+    }
+
     private String formatStaticFieldName(final String name) {
         return CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_UNDERSCORE, name);
     }
@@ -179,8 +194,72 @@ public class ClassGenerator {
     }
 
     private String toEng(String text) {
-        char[] abcCyr = {'а', 'б', 'в', 'г', 'д', 'е', 'ё', 'ж', 'з', 'и', 'й', 'к', 'л', 'м', 'н', 'о', 'п', 'р', 'с', 'т', 'у', 'ф', 'х', 'ц', 'ч', 'ш', 'щ', 'ы', 'э', 'ю', 'я', 'ь', 'ъ'};
-        String[] abcLat = {"a", "b", "v", "g", "d", "e", "jo", "zh", "z", "i", "i", "k", "l", "m", "n", "o", "p", "r", "s", "t", "u", "f", "h", "ts", "ch", "sh", "sch", "i", "e", "ju", "ja", "", ""};
+        char[] abcCyr = { 'а',
+                'б',
+                'в',
+                'г',
+                'д',
+                'е',
+                'ё',
+                'ж',
+                'з',
+                'и',
+                'й',
+                'к',
+                'л',
+                'м',
+                'н',
+                'о',
+                'п',
+                'р',
+                'с',
+                'т',
+                'у',
+                'ф',
+                'х',
+                'ц',
+                'ч',
+                'ш',
+                'щ',
+                'ы',
+                'э',
+                'ю',
+                'я',
+                'ь',
+                'ъ' };
+        String[] abcLat = { "a",
+                "b",
+                "v",
+                "g",
+                "d",
+                "e",
+                "jo",
+                "zh",
+                "z",
+                "i",
+                "i",
+                "k",
+                "l",
+                "m",
+                "n",
+                "o",
+                "p",
+                "r",
+                "s",
+                "t",
+                "u",
+                "f",
+                "h",
+                "ts",
+                "ch",
+                "sh",
+                "sch",
+                "i",
+                "e",
+                "ju",
+                "ja",
+                "",
+                "" };
 
         StringBuilder builder = new StringBuilder();
 
@@ -213,6 +292,14 @@ public class ClassGenerator {
     }
 
     private Class<?> getClassValue(final String type) {
-        return TYPE_TO_CLASS_MAP.get(type);
+        final Class<?> typeClass = TYPE_TO_CLASS_MAP.get(type);
+        if (typeClass != null) {
+            return typeClass;
+        }
+        try {
+            return Class.forName(type);
+        } catch (ClassNotFoundException e) {
+            return null;
+        }
     }
 }

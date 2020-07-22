@@ -5,6 +5,7 @@
         "symbols": [
             "RF_PASSPORT",
             "SNILS",
+            "INN",
             "FID_DOC",
             "RF_DRIVING_LICENSE",
             "MLTR_ID",
@@ -37,16 +38,6 @@
         ]
     },
     {
-        "name": "IndividualType",
-        "type": "enum",
-        "symbols": [
-            "клиент",
-            "представитель юл",
-            "проспект",
-            "гость"
-        ]
-    },
-    {
         "name": "Status",
         "type": "enum",
         "symbols": ["trusted", "verified", "verifying", "unverified"]
@@ -70,6 +61,14 @@
             { "name": "surname", "type": "string"},
             { "name": "gender", "type": "Gender"},
             { "name": "birthdate", "type": {"type": "string", "logicalType": "DateTime"}}
+        ]
+    },
+    {
+        "name": "INNDoc",
+        "type": "record",
+        "logicalType": "ValueObject",
+        "fields": [
+            { "name": "inn", "type": "string"}
         ]
     },
     {
@@ -99,7 +98,7 @@
             { "name": "gender", "type": "Gender" },
             { "name": "birthdate", "type": {"type": "string", "logicalType": "DateTime"} },
             { "name": "birthplace", "type": "string" },
-            { "name": "issued_by", "type": "string" },
+            { "name": "issuedBy", "type": "string" },
             { "name": "division", "type": "string" },
             { "name": "passport_status", "type": "PassportStatus" },
             { "name": "invalidityReason", "type": ["null", "InvalidityReason"] }
@@ -522,7 +521,6 @@
             { "name": "maritalStatus", "type": ["null", "string"] },
             { "name": "birthDate", "type": ["null", {"type": "string", "logicalType": "DateTime"}] },
             { "name": "location", "type": ["null", "string"] },
-            { "name": "type", "type": "IndividualType" },
             { "name": "characteristic", "type": { "type": "array", "items": "Characteristic" } },
             { "name": "metadata", "type": "Metadata" }
         ],
@@ -594,6 +592,7 @@
             { "name": "rfPassportDoc", "type": ["null", "RFPassportDoc"] },
             { "name": "rfDrivingLicenseDoc", "type": ["null", "RFDrivingLicenseDoc"] },
             { "name": "vehicleDoc", "type": ["null", "VehicleDoc"] },
+            { "name": "innDoc", "type": ["null", "INNDoc"] },
             { "name": "metadata", "type": "Metadata" }
         ],
         "indexes": [
@@ -743,7 +742,6 @@
             { "name": "maritalStatus", "type": ["null", "string"] },
             { "name": "birthDate", "type": ["null", {"type": "string", "logicalType": "DateTime"}] },
             { "name": "location", "type": ["null", "string"] },
-            { "name": "type", "type": ["null", "IndividualType"]  },
             { "name": "characteristic", "type": ["null", { "type": "array", "items": "Characteristic" }] },
             { "name": "metadata", "type": "Metadata" }
         ]
@@ -818,6 +816,7 @@
             { "name": "rfPassportDoc", "type": ["null", "RFPassportDoc"] },
             { "name": "rfDrivingLicenseDoc", "type": ["null", "RFDrivingLicenseDoc"] },
             { "name": "vehicleDoc", "type": ["null", "VehicleDoc"] },
+            { "name": "innDoc", "type": ["null", "INNDoc"] },
             { "name": "metadata", "type": "Metadata" }
         ]
     }

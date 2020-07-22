@@ -1,29 +1,34 @@
 package ru.croc.vtb.schema.generator;
 
+import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.Collection;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+
 import ru.croc.vtb.schema.info.ClassInfo;
 import ru.croc.vtb.schema.info.EnumInfo;
 import ru.croc.vtb.schema.info.FieldInfo;
 import ru.croc.vtb.schema.info.IClassInfo;
 
-import java.io.FileReader;
-import java.util.ArrayList;
-import java.util.Collection;
-
 public class SchemaReader {
-    private String schemaPath;
+
+    private final String schemaPath;
 
     public SchemaReader(final String schemaPath) {
         this.schemaPath = schemaPath;
     }
 
     @SuppressWarnings("unchecked")
-    public Collection<IClassInfo> resolveClasses() {
+    public Collection<IClassInfo> resolveClasses() throws Exception {
         JSONParser parser = new JSONParser();
 
         final Collection<IClassInfo> classes = new ArrayList<>();
+
+        final CustomFieldGenerator customFieldGenerator = new CustomFieldGenerator();
+        customFieldGenerator.init();
 
         try (FileReader fileReader = new FileReader(schemaPath)) {
             Object obj = parser.parse(fileReader);
@@ -58,10 +63,13 @@ public class SchemaReader {
                         fieldInfo.setName((String) field.get("name"));
                         fieldInfo.setDefinition(field.toJSONString());
 
-                        final Object typeObject = field.get("type");
-                        processType(object, field, fieldInfo, typeObject);
+                        if (!customFieldGenerator.isSkipField(classInfo, fieldInfo)) {
+                            final Object typeObject = field.get("type");
+                            processType(object, field, fieldInfo, typeObject);
+                            customFieldGenerator.resolveActualFieldType(classInfo, fieldInfo);
 
-                        classInfo.getFields().add(fieldInfo);
+                            classInfo.getFields().add(fieldInfo);
+                        }
                     });
 
                     final JSONArray relations = (JSONArray) object.get("relations");
@@ -78,8 +86,8 @@ public class SchemaReader {
                             fieldInfo.setRelationFieldFrom((String) relation.get("from_fields"));
                             fieldInfo.setRelationFieldTo((String) relation.get("to_fields"));
 
-                            if (!"individualUUID".equals(fieldInfo.getRelationFieldFrom()) ||
-                                    !"uuid".equals(fieldInfo.getRelationFieldTo())) {
+                            if (!"individualUUID".equals(fieldInfo.getRelationFieldFrom())
+                                    || !"uuid".equals(fieldInfo.getRelationFieldTo())) {
                                 classInfo.getFields().add(fieldInfo);
                             }
                         });
@@ -95,13 +103,21 @@ public class SchemaReader {
         return classes;
     }
 
-    private void processType(final JSONObject object, final JSONObject field, final FieldInfo fieldInfo, final Object typeObject) {
+    private void processType(final JSONObject object,
+            final JSONObject field,
+            final FieldInfo fieldInfo,
+            final Object typeObject) {
         if (typeObject instanceof String) {
             fieldInfo.setType((String) typeObject);
         } else if (typeObject instanceof JSONArray) {
             final JSONArray typeInfo = (JSONArray) typeObject;
             if (typeInfo.size() != 2 || !typeInfo.get(0).equals("null")) {
-                throw new IllegalStateException("Invalid type " + typeObject + "\r\nFor field " + field.get("name") + "\r\nIn object " + object.get("name"));
+                throw new IllegalStateException("Invalid type "
+                        + typeObject
+                        + "\r\nFor field "
+                        + field.get("name")
+                        + "\r\nIn object "
+                        + object.get("name"));
             }
             fieldInfo.setOptional(true);
             processType(object, field, fieldInfo, typeInfo.get(1));
