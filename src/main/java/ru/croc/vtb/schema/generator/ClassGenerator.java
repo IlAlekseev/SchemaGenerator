@@ -7,6 +7,11 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+import com.sun.codemodel.JFieldVar;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.text.WordUtils;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -67,7 +72,11 @@ public class ClassGenerator {
                         aClass = pack._class(JMod.ABSTRACT | JMod.PUBLIC, formatClassName(classInfo.getName()));
                     } else {
                         aClass = pack._class(formatClassName(classInfo.getName()));
+                        aClass.annotate(Builder.class);
                     }
+                    aClass.annotate(AllArgsConstructor.class);
+                    aClass.annotate(NoArgsConstructor.class);
+
                     final JAnnotationUse classAnnotation = aClass.annotate(DtoType.class);
                     classAnnotation.param("name", classInfo.getName());
                     classAnnotation.param("type", classInfo.getType());
@@ -136,11 +145,29 @@ public class ClassGenerator {
                     JDefinedClass eClass = pack._enum(formatClassName(enumInfo.getName()));
                     eClass._implements(SchemaEnum.class);
 
+                    final String valueVarName = "value";
+                    final String valueGetName = "getValue";
+                    final JFieldVar valueEnumField = eClass.field(JMod.PRIVATE, String.class, valueVarName);
+                    final JMethod constructor = eClass.constructor(JMod.NONE);
+                    constructor.param(valueEnumField.type(), valueVarName);
+                    constructor.body().assign(JExpr._this().ref(valueVarName), JExpr.ref(valueVarName));
+
+                    JMethod getter = eClass.method(JMod.PUBLIC, String.class, valueGetName);
+                    getter.body()._return(valueEnumField);
+                    getter.annotate(JsonValue.class);
+
+                    JMethod toString = eClass.method(JMod.PUBLIC, String.class, "toString");
+                    toString.body()._return(valueEnumField);
+                    toString.annotate(Override.class);
+
                     for (int i = 0; i < enumInfo.getSymbols().size(); i++) {
                         final String symbol = enumInfo.getSymbols().get(i);
                         final JEnumConstant jEnumConstant = eClass.enumConstant(getValidEnumConstantName(symbol, i));
+                        jEnumConstant.arg(JExpr.lit(symbol));
+/*
                         final JAnnotationUse jsonAnnotation = jEnumConstant.annotate(JsonProperty.class);
                         jsonAnnotation.param("value", JExpr.lit(symbol));
+*/
                     }
                 }
             }

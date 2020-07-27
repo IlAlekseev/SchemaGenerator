@@ -68,13 +68,16 @@
         "type": "record",
         "logicalType": "ValueObject",
         "fields": [
-            { "name": "inn", "type": "string"}
+            { "name": "departmentDoc", "type": ["null", "string"] },
+            { "name": "receiptDocDate", "type": ["null", {"type": "string", "logicalType": "DateTime"}] },
+            { "name": "validateDateDoc", "type": ["null", {"type": "string", "logicalType": "DateTime"}] },
+            { "name": "inn", "type": "string"},
+            { "name": "name", "type": "string"},
+            { "name": "patronymic", "type": ["null", "string"] },
+            { "name": "surname", "type": "string"},
+            { "name": "gender", "type": "Gender"},
+            { "name": "birthdate", "type": {"type": "string", "logicalType": "DateTime"}}
         ]
-    },
-    {
-        "name": "PassportStatus",
-        "type": "enum",
-        "symbols": ["valid", "invalid", "no_information"]
     },
     {
         "name": "InvalidityReason",
@@ -100,8 +103,8 @@
             { "name": "birthplace", "type": "string" },
             { "name": "issuedBy", "type": "string" },
             { "name": "division", "type": "string" },
-            { "name": "passport_status", "type": "PassportStatus" },
-            { "name": "invalidityReason", "type": ["null", "InvalidityReason"] }
+            { "name": "invalidityReason", "type": ["null", "InvalidityReason"] },
+            { "name": "passportStatus", "type": ["null", "string"] }
         ]
     },
     {
@@ -135,8 +138,8 @@
             { "name": "expired", "type": {"type": "string", "logicalType": "DateTime"}},
             { "name": "countryName", "type": ["null", "string"]},
             { "name": "passportType", "type": ["null", "PassportType"]},
-            { "name": "passportStatus", "type": ["null", "PassportStatus"]},
-            { "name": "invalidityReason", "type": ["null", "InvalidityReason"]}
+            { "name": "invalidityReason", "type": ["null", "InvalidityReason"]},
+            { "name": "passportStatus", "type": ["null", "string"] }
         ]
     },
     {
@@ -416,8 +419,8 @@
         "type": "record",
         "logicalType": "ValueObject",
         "fields": [
-            { "name": "errorCode", "type": "string" },
-            { "name": "message", "type": "string" }
+            { "name": "errorCode", "type": ["null", "string"] },
+            { "name": "message", "type": ["null", "string"] }
         ]
     },
     {
@@ -472,7 +475,8 @@
             { "name": "uuid", "type": "string" },
             { "name": "individualUUID", "type": "string" },
             { "name": "href", "type": "string"},
-            { "name": "type", "type": "string"}
+            { "name": "type", "type": "string"},
+            { "name": "characteristic", "type": { "type": "array", "items": "Characteristic" } }
         ],
         "indexes": [
             { "name": "uuid-individualUUID", "parts": ["uuid", "individualUUID"] },
@@ -508,6 +512,7 @@
         "fields": [
             { "name": "uuid", "type": "string" },
             { "name": "ucn", "type": ["null","string"] },
+            { "name": "individualLifeCycle", "type": "string" },
             { "name": "title", "type": "string"},
             { "name": "givenName", "type": ["null", "string"] },
             { "name": "familyName", "type": ["null", "string"] },
@@ -676,19 +681,24 @@
             { "name": "uuid", "type": "string" },
             { "name": "individualUUID", "type": "string" },
             { "name": "type", "type": "string" },
-            { "name": "addressStr", "type": "string" },
+            { "name": "notFormAddrName", "type": "string" },
+            { "name": "addressName", "type": "string" },
             { "name": "countryId", "type": "string" },
             { "name": "zipCode", "type": "string" },
             { "name": "region", "type": "string" },
             { "name": "area", "type": "string" },
             { "name": "additionArea", "type": "string" },
             { "name": "city", "type": "string" },
+            { "name": "prefcitytype", "type": "string" },
             { "name": "district", "type": "string" },
+            { "name": "prefdistricttype", "type": "string" },
             { "name": "settlement", "type": "string" },
+            { "name": "prefsettlementtype", "type": "string" },
             { "name": "street", "type": "string" },
+            { "name": "street_type", "type": "string" },
             { "name": "additionAreaStreet", "type": "string" },
             { "name": "house", "type": "string" },
-            { "name": "frame", "type": "string" },
+            { "name": "housing", "type": "string" },
             { "name": "building", "type": "string" },
             { "name": "flat", "type": "string" },
             { "name": "fiasCode", "type": "string" },
@@ -711,6 +721,16 @@
         "affinity": ["individualUUID"]
     },
     {
+        "name": "Dictionary",
+        "type": "record",
+        "logicalType": "ValueObject",
+        "fields": [
+            { "name": "code", "type": "string" },
+            { "name": "description", "type": "string" },
+            { "name": "catalogName", "type": "string" }
+        ]
+    },
+    {
         "name": "AvatarProxy",
         "type": "record",
         "logicalType": "ValueObject",
@@ -729,6 +749,7 @@
         "fields": [
             { "name": "uuid", "type": ["null" ,"string"] },
             { "name": "ucn", "type": ["null","string"] },
+            { "name": "individualLifeCycle", "type": ["null","string"] },
             { "name": "title", "type": ["null","string"] },
             { "name": "givenName", "type": ["null", "string"] },
             { "name": "familyName", "type": ["null", "string"] },
@@ -782,19 +803,24 @@
             { "name": "uuid", "type": ["null" ,"string"] },
             { "name": "individualUUID", "type": "string" },
             { "name": "type", "type": ["null","string"] },
-            { "name": "addressStr", "type": ["null" ,"string"] },
+            { "name": "notFormAddrName", "type": ["null","string"] },
+            { "name": "addressName", "type": ["null" ,"string"] },
             { "name": "countryId", "type": ["null" ,"string"] },
             { "name": "zipCode", "type": ["null" ,"string"] },
             { "name": "region", "type": ["null" ,"string"] },
             { "name": "area", "type": ["null" ,"string"] },
             { "name": "additionArea", "type": ["null" ,"string"] },
             { "name": "city", "type": ["null" ,"string"] },
+            { "name": "prefcitytype", "type": ["null" ,"string"] },
             { "name": "district", "type": ["null" ,"string"] },
+            { "name": "prefdistricttype", "type": ["null" ,"string"] },
             { "name": "settlement", "type": ["null" ,"string"] },
+            { "name": "prefsettlementtype", "type": ["null" ,"string"] },
+            { "name": "street_type", "type": ["null" ,"string"] },
             { "name": "street", "type": ["null" ,"string"] },
             { "name": "additionAreaStreet", "type": ["null" ,"string"] },
             { "name": "house", "type": ["null" ,"string"] },
-            { "name": "frame", "type": ["null" ,"string"] },
+            { "name": "housing", "type": ["null" ,"string"] },
             { "name": "building", "type": ["null" ,"string"] },
             { "name": "flat", "type": ["null" ,"string"] },
             { "name": "fiasCode", "type": ["null" ,"string"] },
